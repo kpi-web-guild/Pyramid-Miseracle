@@ -1,0 +1,52 @@
+minimum-vagga: v0.7.0
+containers:
+  pip-freeze:
+    setup:
+    - !Alpine v3.4
+    - !Py3Install
+      - pip
+      - 'Pyramid >=1.8, <1.9'
+      - 'gunicorn >=19.6, <20.0'
+    - !Sh |
+        echo "-r base-requirements.txt" > requirements.txt
+        pip freeze >> requirements.txt
+  Pyramid:
+    setup:
+    - !Alpine v3.5
+    - !PipConfig
+      dependencies: true
+    - !Py3Requirements requirements.txt
+
+  test:
+    setup:
+    - !Ubuntu trusty
+    - !PipConfig
+      dependencies: true
+    - !Depends .pre-commit-config.yaml
+    - !Py3Requirements test-requirements.txt
+  lint:
+    setup:
+    - !Ubuntu trusty
+    - !PipConfig
+      dependencies: true
+    - !Install [git]
+    - !Depends .pre-commit-config.yaml
+    - !Py3Requirements test-requirements.txt
+    - !Py3Install [setuptools]
+    - !Sh HOME=/root pre-commit install-hooks
+
+commands:
+  lint: !Command
+    description: Run linters
+    container: lint
+    run: pre-commit run --all-files
+
+  test: !Command
+    description: Run tests
+    container: test
+    run: python3 manage.py test
+
+  run: !Command
+    description: Run server
+    container: Pyramid
+    run: python3 main/app.py

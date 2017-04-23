@@ -1,0 +1,34 @@
+language: python
+python: 3.5
+
+matrix:
+  fast_finish: true
+
+dist: trusty
+sudo: required
+
+addons:
+  apt:
+    packages: [vagga]
+    sources:
+      - sourceline: >-
+          deb [arch=amd64 trusted=yes] http://ubuntu.zerogw.com vagga-testing main
+
+cache:
+  timeout: 21600 # 6 hours
+  pip: true
+  directories:
+   - .vagga/.roots
+   - .vagga/.mnt
+   - .vagga/.transient
+
+before_install: |-
+  cat > ~/.vagga.yaml <<-" VAGGA_CONFIG"
+  alpine-mirror: http://mirror.yandex.ru/mirrors/alpine/
+  ubuntu-mirror: http://mirrors.us.kernel.org/ubuntu/
+
+install: vagga _build lint
+
+script:
+#  - vagga test
+  - vagga lint
