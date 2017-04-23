@@ -23,3 +23,4 @@
     sha: f464d46624a959c6969ce6bcf2cd531cdeefb85a
     hooks:
     -   id: pep257
+        exclude: /__init__.py

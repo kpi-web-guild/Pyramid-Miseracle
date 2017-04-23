@@ -1,10 +1,15 @@
+"""Main module for application."""
+
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.view import view_config
 
+
 @view_config(route_name='hello', renderer='string')
 def hello_world(request):
+    """Print 'Hello-world'."""
     return 'Hello World'
+
 
 if __name__ == '__main__':
     config = Configurator()
