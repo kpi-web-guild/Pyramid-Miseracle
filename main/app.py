@@ -13,13 +13,13 @@ def hello_world(request):
 
 def main():
     """Run server."""
-    if __name__ == '__main__':
-        config = Configurator()
-        config.add_route('hello', '/')
-        config.scan()
-        app = config.make_wsgi_app()
-        server = make_server('0.0.0.0', 8080, app)
-        server.serve_forever()
+    config = Configurator()
+    config.add_route('hello', '/')
+    config.scan()
+    app = config.make_wsgi_app()
+    server = make_server('0.0.0.0', 8080, app)
+    server.serve_forever()
 
 
-main()
+if __name__ == '__main__':
+    main()

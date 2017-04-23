@@ -44,7 +44,7 @@ commands:
   test: !Command
     description: Run tests
     container: test
-    run: python3 main/tests.py
+    run: pytest main/tests.py
 
   run: !Command
     description: Run server
