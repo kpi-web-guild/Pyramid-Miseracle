@@ -22,8 +22,8 @@ containers:
     - !Ubuntu trusty
     - !PipConfig
       dependencies: true
-    - !Depends .pre-commit-config.yaml
     - !Py3Requirements test-requirements.txt
+    - !Py3Install [pytest]
   lint:
     setup:
     - !Ubuntu trusty
@@ -41,10 +41,10 @@ commands:
     container: lint
     run: pre-commit run --all-files
 
-  #test: !Command
-  #  description: Run tests
-  #  container: test
-  #  run: python3 main/test.py
+  test: !Command
+    description: Run tests
+    container: test
+    run: python3 main/tests.py
 
   run: !Command
     description: Run server
